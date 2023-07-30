@@ -1,19 +1,21 @@
 class Category:
+    #Class variables that will be referenced:
     ledger = []
     balance = 0
     
     def __init__(self, name):
         #When initialised, the name of the category is input
         self.name = name
-
+    
+    #Method to deposit to a category, with the amound and description being added to the ledger:
     def deposit(self, amount, description = ''):
         self.deposit_info = {'amount': amount, 'description': description}
         self.ledger.append(self.deposit_info)
-        #print(self.ledger)
         self.balance += amount
-        #print(self.balance)
     
+    #Method to withdraw from the ledger
     def withdraw(self, amount, description = ''):
+        #Use the check_funds method to ensure this only occurs when there is enough funds:
         if self.check_funds(amount):
             self.withdraw_info = {'amount': -amount, 'description': description}
             self.ledger.append(self.withdraw_info)            
@@ -22,17 +24,21 @@ class Category:
         else:
             return False
     
+    #Method to return the balance of the category:
     def get_balance(self):
         return self.balance
-        
+    
+    #Method to transfer between categories
     def transfer(self, amount, category):
+        #Logic to ensure enough funds exist to transfer, and return the appropriate result:
         if self.balance >= amount:
             self.withdraw(amount, "Transfer to {}".format(category.name))
             category.deposit(amount, "Transfer from {}".format(self.name))
             return True
         else:
             return False
-    
+            
+    #Method used to check if enough funds exist for a specified amount:
     def check_funds(self, amount):
         if self.balance < amount:
             return False
