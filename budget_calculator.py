@@ -31,7 +31,7 @@ class Category:
     #Method to transfer between categories
     def transfer(self, amount, category):
         #Logic to ensure enough funds exist to transfer, and return the appropriate result:
-        if self.balance >= amount:
+        if self.check_funds(amount):
             self.withdraw(amount, "Transfer to {}".format(category.name))
             category.deposit(amount, "Transfer from {}".format(self.name))
             return True
