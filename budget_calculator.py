@@ -8,7 +8,49 @@ class Category:
         self.name = name
     
     def __str__(self):
-        string_out = "*************{}*************\n".format(self.name) 
+        #Header for the output, with the category in the center:
+        string_out = "*************{}*************\n".format(self.name)
+        
+        #Empty lists to stor the description and amount strings:
+        description_list = []
+        amounts_list = []
+        
+        #Loop through the items in the eldger:
+        for item in self.ledger:
+            description = ''
+            amount = ''
+            #Calculates the description output lengths, with the maximum description being 23 characters:
+            if len(item['description']) <= 23:
+                description_length = len(item['description'])
+            else:
+                description_length = 23
+                
+            #Calculate the amount length, with a maximum length of 7:
+            if len(str(item['amount'])) <= 7:
+                amount_length = len(str(item['amount']))
+            else:
+                amount_length = 7
+                
+            #The length of the space after the description:
+            space_length = 30 - description_length - amount_length
+            
+            
+            #Adds the characters to the descriptions:
+            for n in range(description_length):
+                description += item['description'][n]
+            #Adds the space characters:
+            for m in range(space_length):
+                description += '_'
+            #Adds the descriptions to the list to be used later:
+            description_list.append(description)
+        #print(description_list)
+            
+            for n in range(amount_length):
+                amount += str(item['amount'])[n]
+            print(amount)
+        
+            
+                
         #for item in self.ledger:
         #    string_out += item[1]
         for item in self.ledger:
@@ -79,7 +121,7 @@ print("**********")
 print("")
 
 print("Deposit 12 into Food")
-Food.deposit(12, "test")
+Food.deposit(12, "1234567891011121314151617181920")
 print("Food balance: " + str(Food.get_balance()))
 print("Fun balance: " + str(Fun.get_balance()))
 print("")
