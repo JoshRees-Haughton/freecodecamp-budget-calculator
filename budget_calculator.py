@@ -8,8 +8,16 @@ class Category:
         self.name = name
     
     def __str__(self):
+        
+        heading_half_length = int((30 - len(self.name))/2)
+        heading_half_str = ''
+        for n in range(heading_half_length):
+            heading_half_str += '*'
+        heading_str = "{}{}{}\n".format(heading_half_str, self.name, heading_half_str)
+        #print(heading_str)
+        
         #Header for the output, with the category in the center:
-        string_out = "*************{}*************\n".format(self.name)
+        #string_out = "*************{}*************\n".format(self.name)
         
         #Empty lists to stor the description and amount strings:
         description_list = []
@@ -40,24 +48,25 @@ class Category:
                 description += item['description'][n]
             #Adds the space characters:
             for m in range(space_length):
-                description += '_'
+                description += ' '
             #Adds the descriptions to the list to be used later:
             description_list.append(description)
         #print(description_list)
             
             for n in range(amount_length):
                 amount += str(item['amount'])[n]
-            print(amount)
-        
+            amounts_list.append(amount)
             
+        
+        string_out = ''
+        string_out += heading_str
                 
-        #for item in self.ledger:
-        #    string_out += item[1]
-        for item in self.ledger:
-            description = str(item['description'])
-            amount = str(item['amount'])
-            string_out += description + ': ' + amount + '\n'
-        string_out += '\nTotal: {}'.format(self.balance)
+
+        for n in range(len(self.ledger)):
+
+            
+            string_out += description_list[n] + amounts_list[n] + '\n'
+        string_out += 'Total: {}'.format(round(float(self.balance), 2))
         
         return string_out
         #return "*************{}*************\n".format(self.name)
@@ -120,28 +129,32 @@ print("Balance ok")
 print("**********")
 print("")
 
-print("Deposit 12 into Food")
-Food.deposit(12, "1234567891011121314151617181920")
+print("Deposit 12.34 into Food")
+Food.deposit(12.34, "1234567891011121314151617181920")
 print("Food balance: " + str(Food.get_balance()))
 print("Fun balance: " + str(Fun.get_balance()))
 print("")
 
-print("Deposit 11 into Fun")
-Fun.deposit(11, "test")
+print("Deposit 11.12 into Fun")
+Fun.deposit(11.12, "test")
 print("Food balance: " + str(Food.get_balance()))
 print("Fun balance: " + str(Fun.get_balance()))
 print("")
 
 print("Withdraw 5 from food")
-Food.withdraw(5, "test")
+Food.withdraw(5.99, "test")
 print("Food balance: " + str(Food.get_balance()))
 print("Fun balance: " + str(Fun.get_balance()))
 print("")
 
 print("Transfer 6 from fun to food")
-Fun.transfer(6, Food)
+Fun.transfer(6.28, Food)
 print("Food balance: " + str(Food.get_balance()))
 print("Fun balance: " + str(Fun.get_balance()))
+print("")
+
+
+print(Food)
 print("")
 
 #print("Check food funds with an amount of 11: ") 
@@ -167,8 +180,7 @@ print("")
 #print("Fun balance: " + str(Fun.get_balance()))
 #print("")
 
-print(Food)
-print("")
+
 
 #print(Food.get_balance())
 #print(Fun.get_balance())
