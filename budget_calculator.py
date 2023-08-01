@@ -8,16 +8,13 @@ class Category:
         self.name = name
     
     def __str__(self):
-        
+
+        #Header for the output, with the category in the center:
         heading_half_length = int((30 - len(self.name))/2)
         heading_half_str = ''
         for n in range(heading_half_length):
             heading_half_str += '*'
         heading_str = "{}{}{}\n".format(heading_half_str, self.name, heading_half_str)
-        #print(heading_str)
-        
-        #Header for the output, with the category in the center:
-        #string_out = "*************{}*************\n".format(self.name)
         
         #Empty lists to stor the description and amount strings:
         description_list = []
@@ -42,7 +39,6 @@ class Category:
             #The length of the space after the description:
             space_length = 30 - description_length - amount_length
             
-            
             #Adds the characters to the descriptions:
             for n in range(description_length):
                 description += item['description'][n]
@@ -52,12 +48,13 @@ class Category:
             #Adds the descriptions to the list to be used later:
             description_list.append(description)
         #print(description_list)
-            
+
+            #Appends the truncated amounts to the empty list:
             for n in range(amount_length):
                 amount += str(item['amount'])[n]
             amounts_list.append(amount)
             
-        
+        #Initialise the empty string to be output, and add the heading:
         string_out = ''
         string_out += heading_str
                 
@@ -113,6 +110,15 @@ class Category:
     def create_spend_chart(categories):
         pass
 
+def create_spend_chart(categories):
+    category_dict = {}
+    for category in categories:
+        category_dict[category.name] = 0
+        for item in category.ledger:
+            print(item)
+    print(category_dict)
+    pass
+
 
 #class Person:
 #  def __init__(self, name, age):
@@ -130,7 +136,7 @@ print("**********")
 print("")
 
 print("Deposit 12.34 into Food")
-Food.deposit(12.34, "1234567891011121314151617181920")
+Food.deposit(100, "1234567891011121314151617181920")
 print("Food balance: " + str(Food.get_balance()))
 print("Fun balance: " + str(Fun.get_balance()))
 print("")
@@ -157,29 +163,7 @@ print("")
 print(Food)
 print("")
 
-#print("Check food funds with an amount of 11: ") 
-#print(Food.check_funds(11))
-#print("Check food funds with an amount of 14: ")
-#print(Food.check_funds(14))
-
-#print("")
-#print("")
-#print("Balance not ok")
-#print("**************")
-#print("")
-
-#print("Withdraw 14 from food")
-#Food.withdraw(14, "test")
-#print("Food balance: " + str(Food.get_balance()))
-#print("Fun balance: " + str(Fun.get_balance()))
-#print("")
-
-#print("Transfer 6 from fun to food")
-#Fun.transfer(6, Food)
-#print("Food balance: " + str(Food.get_balance()))
-#print("Fun balance: " + str(Fun.get_balance()))
-#print("")
-
+create_spend_chart([Food, Fun])
 
 
 #print(Food.get_balance())
