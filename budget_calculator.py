@@ -112,10 +112,17 @@ class Category:
 
 def create_spend_chart(categories):
     category_dict = {}
+    print(category_dict)
     for category in categories:
         category_dict[category.name] = 0
         for item in category.ledger:
             print(item)
+            if item["amount"] < 0:
+              print("withdrawal")
+              print(item["amount"])
+              category_dict[category.name] += item["amount"]
+              print(category_dict)
+              
     print(category_dict)
     pass
 
@@ -135,14 +142,14 @@ print("Balance ok")
 print("**********")
 print("")
 
-print("Deposit 12.34 into Food")
-Food.deposit(100, "1234567891011121314151617181920")
+print("Deposit 100 into Food")
+Food.deposit(100, "Initial Food deposit")
 print("Food balance: " + str(Food.get_balance()))
 print("Fun balance: " + str(Fun.get_balance()))
 print("")
 
-print("Deposit 11.12 into Fun")
-Fun.deposit(11.12, "test")
+print("Deposit 200 into Fun")
+Fun.deposit(200, "Initial Fun deposit")
 print("Food balance: " + str(Food.get_balance()))
 print("Fun balance: " + str(Fun.get_balance()))
 print("")
@@ -161,6 +168,9 @@ print("")
 
 
 print(Food)
+print("")
+
+print(Fun)
 print("")
 
 create_spend_chart([Food, Fun])
