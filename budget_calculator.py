@@ -71,6 +71,7 @@ class Category:
     self.deposit_info = {'amount': amount, 'description': description}
     self.ledger.append(self.deposit_info)
     self.balance += amount
+    print(self.balance)
 
   #Method to withdraw from the ledger
   def withdraw(self, amount, description=''):
@@ -79,6 +80,7 @@ class Category:
       self.withdraw_info = {'amount': -amount, 'description': description}
       self.ledger.append(self.withdraw_info)
       self.balance -= amount
+      print(self.balance)
       return True
     else:
       return False
@@ -104,24 +106,36 @@ class Category:
     else:
       return True
 
-  def create_spend_chart(categories):
-    pass
+  #def create_spend_chart(categories):
+  #  pass
 
 
 def create_spend_chart(categories):
   category_dict = {}
   print(category_dict)
+  category_percent = {}
+  total_spent = 0
+  #print(category_percent)
   for category in categories:
     category_dict[category.name] = 0
+    category_percent[category.name] = 0
     for item in category.ledger:
-      print(item)
+      #print(item)
       if item["amount"] < 0:
-        print("withdrawal")
-        print(item["amount"])
-        category_dict[category.name] += item["amount"]
-        print(category_dict)
-
+        #print("withdrawal")
+        #print(item["amount"])
+        category_dict[category.name] += item["amount"] * -1
+        #print(category_dict)
+        #print(category.balance)
+  for category in categories:
+    total_spent += (category_dict[category.name])
+  for category in categories:
+    category_percent[category.name] += (category_dict[category.name]/total_spent) * 100
+    #category_percent[category.name] += (category_dict[category.name]/category.balance) * 100
+  print(total_spent)
   print(category_dict)
+  print(category_percent)
+
   pass
 
 
@@ -139,26 +153,26 @@ print("")
 
 print("Deposit 100 into Food")
 Food.deposit(100, "Initial Food deposit")
-print("Food balance: " + str(Food.get_balance()))
-print("Fun balance: " + str(Fun.get_balance()))
 print("")
 
 print("Deposit 200 into Fun")
 Fun.deposit(200, "Initial Fun deposit")
-print("Food balance: " + str(Food.get_balance()))
-print("Fun balance: " + str(Fun.get_balance()))
 print("")
 
-print("Withdraw 5 from food")
-Food.withdraw(5.99, "test")
-print("Food balance: " + str(Food.get_balance()))
-print("Fun balance: " + str(Fun.get_balance()))
+print("Withdraw 5.99 from food")
+Food.withdraw(5.99, "Meal")
 print("")
 
-print("Transfer 6 from fun to food")
+print("Withdraw 50.65 from food")
+Food.withdraw(50.65, "Food shop")
+print("")
+
+print("Withdraw 40.50 from fun")
+Fun.withdraw(40.50, "Concert ticket")
+print("")
+
+print("Transfer 6.28 from fun to food")
 Fun.transfer(6.28, Food)
-print("Food balance: " + str(Food.get_balance()))
-print("Fun balance: " + str(Fun.get_balance()))
 print("")
 
 print(Food)
