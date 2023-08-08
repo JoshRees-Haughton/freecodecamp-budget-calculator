@@ -1,3 +1,6 @@
+#print("Percentage spent by category\n100|          \n 90|          \n 80|          \n 70|    o     \n 60|    o     \n 50|    o     \n 40|    o     \n 30|    o     \n 20|    o  o  \n 10|    o  o  \n  0| o  o  o  \n    ----------\n     B  F  E  \n     u  o  n  \n     s  o  t  \n     i  d  e  \n     n     r  \n     e     t  \n     s     a  \n     s     i  \n           n  \n           m  \n           e  \n           n  \n           t  ")
+
+
 class Category:
 
   def __init__(self, name):
@@ -111,31 +114,65 @@ class Category:
 
 
 def create_spend_chart(categories):
+  number_of_categories = len(categories)
+  print(number_of_categories)
+  #Empty dictionaries to store the category information:
   category_dict = {}
-  print(category_dict)
-  category_percent = {}
+  #print(category_dict)
+  category_percent = []
+  percent_list = (0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
+  category_chart_percents = []
+  category_chart_names = []
+
+  #Empty variable to store the total spent, to calculate the percentages:
   total_spent = 0
   #print(category_percent)
+
+  #Loop to add the amounts spent in each category to category_dict:
   for category in categories:
+    #Initialise the dicts with zero values:
     category_dict[category.name] = 0
-    category_percent[category.name] = 0
+    #category_percent[category.name] = 0
+
+    #Loop through ledger in each category to find the withdrawals:
     for item in category.ledger:
       #print(item)
+
+      #Test if a withdrawal, then add the positive value to the dict if so:
       if item["amount"] < 0:
         #print("withdrawal")
         #print(item["amount"])
         category_dict[category.name] += item["amount"] * -1
         #print(category_dict)
         #print(category.balance)
+
+  #Loop through the categories to get the total spent and calculate the percentages to be used in the chart:
   for category in categories:
     total_spent += (category_dict[category.name])
   for category in categories:
-    category_percent[category.name] += (category_dict[category.name]/total_spent) * 100
+    category_percent.append((category_dict[category.name] / total_spent) * 100)
     #category_percent[category.name] += (category_dict[category.name]/category.balance) * 100
-  print(total_spent)
-  print(category_dict)
+  #print(total_spent)
+  #print(category_dict)
   print(category_percent)
 
+  #Add percents to list:
+  for n in range(len(percent_list)):
+    category_chart_percents.append("")
+    category_chart_percents[n] += str(percent_list[n]) + '|'
+
+  print(category_chart_percents)
+
+  #Loop through categories and add the ' o  ' if required:
+  for n in range(len(percent_list)):
+    print(n)
+    for m in range(number_of_categories):
+      if category_percent[m] > percent_list[n]:
+        category_chart_percents[n] += ' o '
+      else:
+        category_chart_percents[n] += '   '
+
+  print(category_chart_percents)
   pass
 
 
