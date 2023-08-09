@@ -117,12 +117,18 @@ def create_spend_chart(categories):
   number_of_categories = len(categories)
   print(number_of_categories)
   #Empty dictionaries to store the category information:
+  category_names = []
   category_dict = {}
   #print(category_dict)
   category_percent = []
   percent_list = (0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
   category_chart_percents = []
   category_chart_names = []
+  category_name_length = []
+  chart_lines = "-"
+  final_chart_output = ""
+  longest_category_name = 0
+
 
   #Empty variable to store the total spent, to calculate the percentages:
   total_spent = 0
@@ -131,6 +137,7 @@ def create_spend_chart(categories):
   #Loop to add the amounts spent in each category to category_dict:
   for category in categories:
     #Initialise the dicts with zero values:
+    category_names.append(category.name)
     category_dict[category.name] = 0
     #category_percent[category.name] = 0
 
@@ -151,9 +158,6 @@ def create_spend_chart(categories):
     total_spent += (category_dict[category.name])
   for category in categories:
     category_percent.append((category_dict[category.name] / total_spent) * 100)
-    #category_percent[category.name] += (category_dict[category.name]/category.balance) * 100
-  #print(total_spent)
-  #print(category_dict)
   print(category_percent)
 
   #Add percents to list:
@@ -165,7 +169,7 @@ def create_spend_chart(categories):
 
   #Loop through categories and add the ' o  ' if required:
   for n in range(len(percent_list)):
-    print(n)
+    #print(n)
     for m in range(number_of_categories):
       if category_percent[m] > percent_list[n]:
         category_chart_percents[n] += ' o '
@@ -173,6 +177,49 @@ def create_spend_chart(categories):
         category_chart_percents[n] += '   '
 
   print(category_chart_percents)
+
+  for category in categories:
+    category_name_length.append(len(category.name))
+  #print(category_name_length)
+
+  for length in category_name_length:
+    if length > longest_category_name:
+      longest_category_name = length
+  #print(longest_category_name)
+
+  
+  for n in range(0, longest_category_name):
+    #print(n)
+    #print("i")
+    category_chart_names.append('')
+    #print(category_names[0][0])
+    for m in range(len(category_names)):
+      #print(m)
+      #print(category_name_length[m])
+      if n < category_name_length[m]:
+        #print(category_chart_names[0][0])
+        category_chart_names[n] += ' ' + category_names[m][n] + ' '
+        #print(category_chart_names[m])
+      else: 
+        category_chart_names[m] += '   '
+
+  for category in categories:
+    chart_lines += '---'
+  print(chart_lines)
+
+  for n in range(len(category_chart_percents)):
+    final_chart_output += category_chart_percents[len(category_chart_percents) - n - 1] + "\n"
+
+  final_chart_output += chart_lines + "\n"
+
+  for line in category_chart_names:
+    final_chart_output += line + "\n"
+
+  
+  print(final_chart_output)
+        
+  print("test")
+  print(category_chart_names)
   pass
 
 
