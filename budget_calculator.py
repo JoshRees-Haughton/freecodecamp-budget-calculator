@@ -125,8 +125,8 @@ def create_spend_chart(categories):
   category_chart_percents = []
   category_chart_names = []
   category_name_length = []
-  chart_lines = "-"
-  final_chart_output = ""
+  chart_lines = "    -"
+  final_chart_output = "Percentage spent by category\n"
   longest_category_name = 0
 
 
@@ -158,14 +158,19 @@ def create_spend_chart(categories):
     total_spent += (category_dict[category.name])
   for category in categories:
     category_percent.append((category_dict[category.name] / total_spent) * 100)
-  print(category_percent)
+  #print(category_percent)
 
   #Add percents to list:
   for n in range(len(percent_list)):
     category_chart_percents.append("")
-    category_chart_percents[n] += str(percent_list[n]) + '|'
+    if len(str(percent_list[n])) == 2:
+      category_chart_percents[n] += ' ' + str(percent_list[n]) + '|'
+    elif len(str(percent_list[n])) == 1:
+      category_chart_percents[n] += '  ' + str(percent_list[n]) + '|'
+    else:
+      category_chart_percents[n] += str(percent_list[n]) + '|'
 
-  print(category_chart_percents)
+  #print(category_chart_percents)
 
   #Loop through categories and add the ' o  ' if required:
   for n in range(len(percent_list)):
@@ -176,7 +181,7 @@ def create_spend_chart(categories):
       else:
         category_chart_percents[n] += '   '
 
-  print(category_chart_percents)
+  #print(category_chart_percents)
 
   for category in categories:
     category_name_length.append(len(category.name))
@@ -189,23 +194,15 @@ def create_spend_chart(categories):
 
   
   for n in range(0, longest_category_name):
-    #print(n)
-    #print("i")
     category_chart_names.append('')
-    #print(category_names[0][0])
     for m in range(len(category_names)):
-      #print(m)
-      #print(category_name_length[m])
       if n < category_name_length[m]:
-        #print(category_chart_names[0][0])
         category_chart_names[n] += ' ' + category_names[m][n] + ' '
-        #print(category_chart_names[m])
       else: 
         category_chart_names[m] += '   '
 
   for category in categories:
     chart_lines += '---'
-  print(chart_lines)
 
   for n in range(len(category_chart_percents)):
     final_chart_output += category_chart_percents[len(category_chart_percents) - n - 1] + "\n"
@@ -213,7 +210,7 @@ def create_spend_chart(categories):
   final_chart_output += chart_lines + "\n"
 
   for line in category_chart_names:
-    final_chart_output += line + "\n"
+    final_chart_output += "    " + line + "\n"
 
   
   print(final_chart_output)
@@ -231,39 +228,39 @@ def create_spend_chart(categories):
 Food = Category("Food")
 Fun = Category("Fun")
 
-print("Balance ok")
-print("**********")
-print("")
+#print("Balance ok")
+#print("**********")
+#print("")
 
-print("Deposit 100 into Food")
+#print("Deposit 100 into Food")
 Food.deposit(100, "Initial Food deposit")
-print("")
+#print("")
 
-print("Deposit 200 into Fun")
+#print("Deposit 200 into Fun")
 Fun.deposit(200, "Initial Fun deposit")
-print("")
+#print("")
 
-print("Withdraw 5.99 from food")
+#print("Withdraw 5.99 from food")
 Food.withdraw(5.99, "Meal")
-print("")
+#print("")
 
-print("Withdraw 50.65 from food")
+#print("Withdraw 50.65 from food")
 Food.withdraw(50.65, "Food shop")
-print("")
+#print("")
 
-print("Withdraw 40.50 from fun")
+#print("Withdraw 40.50 from fun")
 Fun.withdraw(40.50, "Concert ticket")
-print("")
+#print("")
 
-print("Transfer 6.28 from fun to food")
+#print("Transfer 6.28 from fun to food")
 Fun.transfer(6.28, Food)
-print("")
+#print("")
 
-print(Food)
-print("")
+#print(Food)
+#print("")
 
-print(Fun)
-print("")
+#print(Fun)
+#print("")
 
 create_spend_chart([Food, Fun])
 
