@@ -1,4 +1,6 @@
-#print("Percentage spent by category\n100|          \n 90|          \n 80|          \n 70|    o     \n 60|    o     \n 50|    o     \n 40|    o     \n 30|    o     \n 20|    o  o  \n 10|    o  o  \n  0| o  o  o  \n    ----------\n     B  F  E  \n     u  o  n  \n     s  o  t  \n     i  d  e  \n     n     r  \n     e     t  \n     s     a  \n     s     i  \n           n  \n           m  \n           e  \n           n  \n           t  ")
+print("Percentage spent by category\n100|          \n 90|          \n 80|          \n 70|    o     \n 60|    o     \n 50|    o     \n 40|    o     \n 30|    o     \n 20|    o  o  \n 10|    o  o  \n  0| o  o  o  \n    ----------\n     B  F  E  \n     u  o  n  \n     s  o  t  \n     i  d  e  \n     n     r  \n     e     t  \n     s     a  \n     s     i  \n           n  \n           m  \n           e  \n           n  \n           t  ")
+
+
 
 
 class Category:
@@ -50,7 +52,6 @@ class Category:
         description += ' '
       #Adds the descriptions to the list to be used later:
       description_list.append(description)
-      #print(description_list)
 
       #Appends the truncated amounts to the empty list:
       for n in range(amount_length):
@@ -67,14 +68,13 @@ class Category:
     string_out += 'Total: {}'.format(round(float(self.balance), 2))
 
     return string_out
-    #return "*************{}*************\n".format(self.name)
 
   #Method to deposit to a category, with the amound and description being added to the ledger:
   def deposit(self, amount, description=''):
     self.deposit_info = {'amount': amount, 'description': description}
     self.ledger.append(self.deposit_info)
     self.balance += amount
-    print(self.balance)
+    #print(self.balance)
 
   #Method to withdraw from the ledger
   def withdraw(self, amount, description=''):
@@ -83,7 +83,6 @@ class Category:
       self.withdraw_info = {'amount': -amount, 'description': description}
       self.ledger.append(self.withdraw_info)
       self.balance -= amount
-      print(self.balance)
       return True
     else:
       return False
@@ -109,17 +108,13 @@ class Category:
     else:
       return True
 
-  #def create_spend_chart(categories):
-  #  pass
-
-
 def create_spend_chart(categories):
   number_of_categories = len(categories)
-  print(number_of_categories)
+  #print(number_of_categories)
+  
   #Empty dictionaries to store the category information:
   category_names = []
   category_dict = {}
-  #print(category_dict)
   category_percent = []
   percent_list = (0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
   category_chart_percents = []
@@ -132,33 +127,26 @@ def create_spend_chart(categories):
 
   #Empty variable to store the total spent, to calculate the percentages:
   total_spent = 0
-  #print(category_percent)
 
   #Loop to add the amounts spent in each category to category_dict:
   for category in categories:
+    
     #Initialise the dicts with zero values:
     category_names.append(category.name)
     category_dict[category.name] = 0
-    #category_percent[category.name] = 0
 
     #Loop through ledger in each category to find the withdrawals:
     for item in category.ledger:
-      #print(item)
 
       #Test if a withdrawal, then add the positive value to the dict if so:
       if item["amount"] < 0:
-        #print("withdrawal")
-        #print(item["amount"])
         category_dict[category.name] += item["amount"] * -1
-        #print(category_dict)
-        #print(category.balance)
 
   #Loop through the categories to get the total spent and calculate the percentages to be used in the chart:
   for category in categories:
     total_spent += (category_dict[category.name])
   for category in categories:
     category_percent.append((category_dict[category.name] / total_spent) * 100)
-  #print(category_percent)
 
   #Add percents to list:
   for n in range(len(percent_list)):
@@ -170,36 +158,31 @@ def create_spend_chart(categories):
     else:
       category_chart_percents[n] += str(percent_list[n]) + '|'
 
-  #print(category_chart_percents)
-
   #Loop through categories and add the ' o  ' if required:
   for n in range(len(percent_list)):
-    #print(n)
     for m in range(number_of_categories):
       if category_percent[m] > percent_list[n]:
         category_chart_percents[n] += ' o '
       else:
         category_chart_percents[n] += '   '
-
-  #print(category_chart_percents)
-
+    category_chart_percents[n] += ' '
   for category in categories:
     category_name_length.append(len(category.name))
-  #print(category_name_length)
 
   for length in category_name_length:
     if length > longest_category_name:
       longest_category_name = length
-  #print(longest_category_name)
-
   
   for n in range(0, longest_category_name):
-    category_chart_names.append('')
+    category_chart_names.append(' ')
     for m in range(len(category_names)):
       if n < category_name_length[m]:
-        category_chart_names[n] += ' ' + category_names[m][n] + ' '
+        category_chart_names[n] += category_names[m][n] + '  '
       else: 
-        category_chart_names[m] += '   '
+        category_chart_names[n] += '   '
+
+  print(category_chart_percents)
+  print(category_chart_names)
 
   for category in categories:
     chart_lines += '---'
@@ -209,51 +192,64 @@ def create_spend_chart(categories):
 
   final_chart_output += chart_lines + "\n"
 
-  for line in category_chart_names:
-    final_chart_output += "    " + line + "\n"
+  for n in range(len(category_chart_names) - 1):
+    final_chart_output += "    " + category_chart_names[n] + "\n"
+  final_chart_output +=  "    " +  category_chart_names[len(category_chart_names) - 1]
 
-  
   print(final_chart_output)
+  return final_chart_output
         
-  print("test")
-  print(category_chart_names)
+  #print("test")
+  #print(category_chart_names)
   pass
 
 
-#class Person:
-#  def __init__(self, name, age):
-#    self.name = name
-#    self.age = age
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
 
-Food = Category("Food")
-Fun = Category("Fun")
+#Food = Category("Food")
+#Fun = Category("Fun")
+
+food = Category("Food")
+entertainment = Category("Entertainment")
+business = Category("Business")
+
+food.deposit(900, "deposit")
+entertainment.deposit(900, "deposit")
+business.deposit(900, "deposit")
+food.withdraw(105.55)
+entertainment.withdraw(33.40)
+business.withdraw(10.99)
+create_spend_chart([business, food, entertainment])
 
 #print("Balance ok")
 #print("**********")
 #print("")
 
 #print("Deposit 100 into Food")
-Food.deposit(100, "Initial Food deposit")
+#Food.deposit(100, "Initial Food deposit")
 #print("")
 
 #print("Deposit 200 into Fun")
-Fun.deposit(200, "Initial Fun deposit")
+#Fun.deposit(200, "Initial Fun deposit")
 #print("")
 
 #print("Withdraw 5.99 from food")
-Food.withdraw(5.99, "Meal")
+#Food.withdraw(5.99, "Meal")
 #print("")
 
 #print("Withdraw 50.65 from food")
-Food.withdraw(50.65, "Food shop")
+#Food.withdraw(50.65, "Food shop")
 #print("")
 
 #print("Withdraw 40.50 from fun")
-Fun.withdraw(40.50, "Concert ticket")
+#Fun.withdraw(40.50, "Concert ticket")
 #print("")
 
 #print("Transfer 6.28 from fun to food")
-Fun.transfer(6.28, Food)
+#Fun.transfer(6.28, Food)
 #print("")
 
 #print(Food)
@@ -262,7 +258,7 @@ Fun.transfer(6.28, Food)
 #print(Fun)
 #print("")
 
-create_spend_chart([Food, Fun])
+#create_spend_chart([Food, Fun])
 
 #print(Food.get_balance())
 #print(Fun.get_balance())
