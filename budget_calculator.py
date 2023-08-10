@@ -1,8 +1,3 @@
-print("Percentage spent by category\n100|          \n 90|          \n 80|          \n 70|    o     \n 60|    o     \n 50|    o     \n 40|    o     \n 30|    o     \n 20|    o  o  \n 10|    o  o  \n  0| o  o  o  \n    ----------\n     B  F  E  \n     u  o  n  \n     s  o  t  \n     i  d  e  \n     n     r  \n     e     t  \n     s     a  \n     s     i  \n           n  \n           m  \n           e  \n           n  \n           t  ")
-
-
-
-
 class Category:
 
   def __init__(self, name):
@@ -25,7 +20,7 @@ class Category:
     description_list = []
     amounts_list = []
 
-    #Loop through the items in the eldger:
+    #Loop through the items in the ledger:
     for item in self.ledger:
       description = ''
       amount = ''
@@ -42,7 +37,7 @@ class Category:
         amount_length = 7
 
       #The length of the space after the description:
-      space_length = 30 - description_length - amount_length
+      space_length = 24 - description_length
 
       #Adds the characters to the descriptions:
       for n in range(description_length):
@@ -56,14 +51,16 @@ class Category:
       #Appends the truncated amounts to the empty list:
       for n in range(amount_length):
         amount += str(item['amount'])[n]
-      amounts_list.append(amount)
+      if amount.find(".") == -1:
+        amounts_list.append(str(amount) + '.00')
+      else:
+        amounts_list.append(str(amount))
 
     #Initialise the empty string to be output, and add the heading:
     string_out = ''
     string_out += heading_str
 
     for n in range(len(self.ledger)):
-
       string_out += description_list[n] + amounts_list[n] + '\n'
     string_out += 'Total: {}'.format(round(float(self.balance), 2))
 
@@ -73,7 +70,8 @@ class Category:
   def deposit(self, amount, description=''):
     self.deposit_info = {'amount': amount, 'description': description}
     self.ledger.append(self.deposit_info)
-    self.balance += amount
+    self.balance += float(amount)
+    print(float(amount))
     #print(self.balance)
 
   #Method to withdraw from the ledger
@@ -181,8 +179,8 @@ def create_spend_chart(categories):
       else: 
         category_chart_names[n] += '   '
 
-  print(category_chart_percents)
-  print(category_chart_names)
+  #print(category_chart_percents)
+  #print(category_chart_names)
 
   for category in categories:
     chart_lines += '---'
@@ -199,10 +197,6 @@ def create_spend_chart(categories):
   print(final_chart_output)
   return final_chart_output
         
-  #print("test")
-  #print(category_chart_names)
-  pass
-
 
 class Person:
   def __init__(self, name, age):
@@ -218,11 +212,21 @@ business = Category("Business")
 
 food.deposit(900, "deposit")
 entertainment.deposit(900, "deposit")
-business.deposit(900, "deposit")
-food.withdraw(105.55)
-entertainment.withdraw(33.40)
-business.withdraw(10.99)
-create_spend_chart([business, food, entertainment])
+food.withdraw(45.67, "milk, cereal, eggs, bacon, bread")
+food.transfer(20, entertainment)
+
+print("")
+print("---Expected---")
+print(f"*************Food*************\ndeposit                 900.00\nmilk, cereal, eggs, bac -45.67\nTransfer to Entertainme -20.00\nTotal: 834.33")
+print("---Actual---")
+print(str(food))
+print("---Test---")
+print("")
+#business.deposit(900, "deposit")
+
+#entertainment.withdraw(33.40)
+#business.withdraw(10.99)
+#create_spend_chart([business, food, entertainment])
 
 #print("Balance ok")
 #print("**********")
